@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP��eventproxy
+ * PHP版entproxy
  * 
  * @author: hughnian <hugh.nian@163.com>
  * 
@@ -9,9 +9,9 @@ class EventProxy
 {
   private static $_instance;
 	
-  private $_events = array();//�����¼���
-	
-  private $_register = array();//ע���¼�����ֵ
+  private $_events = array();//存储事件
+  
+  private $_register = array();//注册事件ֵ
 	
   private function __construct(){}
   
@@ -27,14 +27,14 @@ class EventProxy
   
   public function __clone()
   {
-  	trigger_error('Clone is not allow ��', E_USER_ERROR);	
+  	trigger_error('Clone is not allow 亲' E_USER_ERROR);	
   }
   
-  //ע���¼�
+  
   public function registerEvent($eventname=array())
   {
   	if(!is_array($eventname)){
-  		trigger_error('Arguments are wrong ��', E_USER_ERROR);
+  		trigger_error('Arguments are wrong 亲', E_USER_ERROR);
   		return;
   	}
   	$this->_events = $eventname;
@@ -47,7 +47,7 @@ class EventProxy
   public function triggerEvent($eventname, $val)
   {
   	if(!in_array($eventname, $this->_events)){
-  		trigger_error('eventname is wrong ��', E_USER_ERROR);
+  		trigger_error('eventname is wrong 亲', E_USER_ERROR);
   		return;
   	} else {
   		$this->_register[$eventname] = $val;  	
@@ -63,19 +63,19 @@ class EventProxy
   	return (object)$this->_register;	
   }
   
-  //���ݶ���ע���ʹ����¼�����
+  
   public function __call($funcname,$arguments)
   {
   		$register_funcs = array('create', 'on', 'bind','subscribe');
   		$trigger_funcs = array('trigger', 'emit', 'fire');
   		if(!in_array($funcname, $register_funcs) && !in_array($funcname, $trigger_funcs)) {
-  			trigger_error("Method $funcname is not defined ��", E_USER_ERROR);
+  			trigger_error("Method $funcname is not defined 亲", E_USER_ERROR);
   			return;
   	  }  	  
   	 	
   	 	if(in_array($funcname, $register_funcs)) {
   	 		if(count($arguments) == 0){
-  	 			trigger_error("Method $funcname arguments are wrong ��", E_USER_ERROR);
+  	 			trigger_error("Method $funcname arguments are wrong 亲", E_USER_ERROR);
   				return;
  			  } else {
  			  	$this->registerEvent($arguments);
@@ -84,7 +84,7 @@ class EventProxy
   	 	
   	 	if(in_array($funcname, $trigger_funcs)) {
   	 		if(count($arguments)>2 || count($arguments) <= 1){
-  	 			trigger_error("Method $funcname arguments are wrong ��", E_USER_ERROR);
+  	 			trigger_error("Method $funcname arguments are wrong 亲", E_USER_ERROR);
   				return;
  			  } else {
  			  	$this->triggerEvent($arguments[0], $arguments[1]);
